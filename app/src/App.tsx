@@ -28,7 +28,7 @@ const App = () => {
   return (
     <div className="App">
       {accountBalances?.map((accountBalance) => (
-        <p>
+        <p key={accountBalance.id}>
           {accountBalance.name}-{accountBalance.totalBalance}
         </p>
       ))}

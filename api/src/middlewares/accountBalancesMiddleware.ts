@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { Request, Response, NextFunction } from 'express';
+import Decimal from 'decimal.js';
+
 import { Account, AccountBalance, Transaction } from '../../../types';
 import { getServiceConfig } from '../getServiceConfig';
 
@@ -26,8 +28,8 @@ export const accountBalancesMiddleware = async (
 
             const totalBalance = transactions.reduce(
               (amount: number, transaction: Transaction) =>
-                amount + transaction.amount,
-              0
+                new Decimal(transaction.amount).plus(amount).toFixed(2),
+              new Decimal(0).toFixed(2)
             );
 
             return {
@@ -36,7 +38,7 @@ export const accountBalancesMiddleware = async (
               totalBalance
             };
           } catch (err) {
-            console.log((err as Error).message, i);
+            console.log((err as Error).message, i + 1);
           }
         }
         throw new Error(
@@ -45,8 +47,9 @@ export const accountBalancesMiddleware = async (
       })
     );
 
-    response.status(200).send({ success: true, accountBalances });
+    response.status(200).send({ accountBalances });
   } catch (err) {
+    console.log('Err', (err as Error).message);
     next(err);
   }
 };
