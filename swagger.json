@@ -1,0 +1,133 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Used to generate mnemonics and addresses",
+    "version": "1.0.0",
+    "title": "Bitcoin wallet API",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "servers": [
+    {
+      "url": "/",
+      "description": "Local Dev"
+    }
+  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "schemes": ["http"],
+  "host": "localhost:3080",
+  "basePath": "/",
+  "paths": {
+    "/mnemonic": {
+      "get": {
+        "summary": "Get mnemonic",
+        "description": "Generates a random mnemonic words following BIP39 standard ",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mnemonic": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/address": {
+      "get": {
+        "summary": "Get address",
+        "description": "Generates a Hierarchical Deterministic (HD) Segregated Witness (SegWit) bitcoin address from a given seed and path ",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "required": true,
+            "in": "query",
+            "name": "seedPhrase",
+            "schema": { "type": "string" }
+          },
+          {
+            "required": true,
+            "in": "query",
+            "name": "derivationPath",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/multi-sig-address": {
+      "get": {
+        "summary": "Get multi sig address",
+        "description": "Generates an n-out-of-m Multisignature (multi-sig) Pay-To-Script-Hash (P2SH) bitcoin address, where n, m and public keys are specified ",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "required": true,
+            "in": "query",
+            "name": "n",
+            "schema": { "type": "integer" }
+          },
+          {
+            "required": true,
+            "in": "query",
+            "name": "m",
+            "schema": { "type": "integer" }
+          },
+          {
+            "required": true,
+            "in": "query",
+            "name": "publicKeys",
+            "description": "String array of public keys",
+            "schema": { "type": "array" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "address": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

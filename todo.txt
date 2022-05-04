@@ -1,0 +1,4 @@
+- Add describe block called validation in errors
+- Add functional tests checking the external calls 
+- Add unit tests for each of the middle wares.
+- Update READ ME. 
