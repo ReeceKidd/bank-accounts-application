@@ -9,8 +9,15 @@ export interface Transaction {
   amount: number;
 }
 
+export enum AccountType {
+  Saving = 'Saving',
+  Checking = 'Checking',
+  Unknown = 'Unknown'
+}
+
 export interface AccountBalance {
   id: number;
   name: string;
   totalBalance: number;
+  accountType: AccountType;
 }

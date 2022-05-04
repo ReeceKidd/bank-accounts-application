@@ -2,10 +2,40 @@ import axios from 'axios';
 import { Request, Response, NextFunction } from 'express';
 import Decimal from 'decimal.js';
 
-import { Account, AccountBalance, Transaction } from '../../../types';
+import {
+  Account,
+  AccountBalance,
+  AccountType,
+  Transaction
+} from '../../../types';
 import { getServiceConfig } from '../getServiceConfig';
 
 const { ACCOUNTS_API_URL, TRANSACTIONS_API_URL } = getServiceConfig();
+
+export const getAccountType = (
+  name: string
+): { name: string; accountType: AccountType } => {
+  if (name.includes(AccountType.Checking)) {
+    return {
+      name: name.replace(AccountType.Checking, ''),
+      accountType: AccountType.Checking
+    };
+  }
+  if (name.includes(AccountType.Saving)) {
+    return {
+      name: name.replace(AccountType.Saving, ''),
+      accountType: AccountType.Saving
+    };
+  }
+  return { name, accountType: AccountType.Unknown };
+};
+
+export const removeSFromName = (name: string) => {
+  if (name.includes(' s')) {
+    return name.slice(0, name.length - 1);
+  }
+  return name;
+};
 
 export const getAccountBalancesMiddleware = async (
   _request: Request,
@@ -18,11 +48,11 @@ export const getAccountBalancesMiddleware = async (
 
     const numberOfTransactionCallReattempts = 5;
     const accountBalances: AccountBalance[] = await Promise.all(
-      accounts.map(async ({ id, name }) => {
+      accounts.map(async (account) => {
         for (let i = 0; i < numberOfTransactionCallReattempts; i++) {
           try {
             const transactionsResponse = await axios.get(
-              `${TRANSACTIONS_API_URL}/${id}`
+              `${TRANSACTIONS_API_URL}/${account.id}`
             );
             const transactions = transactionsResponse.data;
 
@@ -32,10 +62,13 @@ export const getAccountBalancesMiddleware = async (
               new Decimal(0).toFixed(2)
             );
 
+            const { name, accountType } = getAccountType(account.name);
+
             return {
-              id,
-              name,
-              totalBalance
+              id: account.id,
+              name: removeSFromName(name),
+              totalBalance,
+              accountType
             };
           } catch (err) {
             console.log((err as Error).message, i + 1);

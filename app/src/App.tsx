@@ -1,3 +1,17 @@
+import {
+  Alert,
+  AlertTitle,
+  Avatar,
+  CircularProgress,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Paper,
+  Typography
+} from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
@@ -7,6 +21,7 @@ const App = () => {
   const ACCOUNT_BALANCES_URL = 'http://localhost:3000/accounts/balances';
   const ACCOUNT_BALANCES_NETWORK_TIMEOUT = 100000;
   const [accountBalances, setAccountBalances] = useState<AccountBalance[]>();
+  const [fetchAccountsLoading, setFetchAccountsLoading] = useState(false);
   const [
     fetchAccountBalancesErrorMessage,
     setFetchingAccountBalancesErrorMessage
@@ -15,41 +30,77 @@ const App = () => {
   useEffect(() => {
     const fetchAccountBalances = async () => {
       try {
+        setFetchAccountsLoading(true);
         const accountBalancesResponse = await axios.get(ACCOUNT_BALANCES_URL, {
           timeout: ACCOUNT_BALANCES_NETWORK_TIMEOUT
         });
         setAccountBalances(accountBalancesResponse.data.accountBalances);
+        setFetchAccountsLoading(false);
       } catch (err) {
         setFetchingAccountBalancesErrorMessage((err as Error).message);
+        setFetchAccountsLoading(false);
       }
     };
     fetchAccountBalances();
   }, []);
   return (
-    <div className="App">
-      <div>
-        <ul>
-          {accountBalances?.map((accountBalance) => (
-            <li key={accountBalance.id}>
-              <div>
-                <img
-                  alt="profile"
-                  src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/488320/profile/profile-80.jpg"
-                  className="list-item-image"
-                />
+    <Grid
+      container
+      spacing={20}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      style={{ minHeight: '100vh' }}
+    >
+      {fetchAccountsLoading ? (
+        <CircularProgress />
+      ) : (
+        <Paper elevation={3}>
+          <List>
+            {accountBalances?.map(({ name, totalBalance, id, accountType }) => (
+              <div key={id}>
+                <ListItem alignItems="center" key={id}>
+                  <ListItemAvatar>
+                    <Avatar
+                      alt={name}
+                      src={`https://i.pravatar.cc/300?u=${id}`}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={name}
+                    secondary={
+                      <div style={{ justifyContent: 'space-between' }}>
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          color="text.primary"
+                        >
+                          {totalBalance}
+                        </Typography>
+                        <Typography
+                          variant="caption"
+                          style={{ marginLeft: 10 }}
+                        >
+                          {accountType}
+                        </Typography>
+                      </div>
+                    }
+                    about={accountType}
+                  />
+                </ListItem>
+                <Divider variant="inset" component="li" />
               </div>
-              <div>
-                <h4>{accountBalance.name}</h4>
-                <p>{accountBalance.totalBalance}</p>
-              </div>
-            </li>
-          ))}
-          {fetchAccountBalancesErrorMessage && (
-            <p>{fetchAccountBalancesErrorMessage}</p>
-          )}
-        </ul>
-      </div>
-    </div>
+            ))}
+            {fetchAccountBalancesErrorMessage && (
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                {fetchAccountBalancesErrorMessage}
+              </Alert>
+            )}
+          </List>
+        </Paper>
+      )}
+    </Grid>
   );
 };
 
