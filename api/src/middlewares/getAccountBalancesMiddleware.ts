@@ -7,7 +7,7 @@ import { getServiceConfig } from '../getServiceConfig';
 
 const { ACCOUNTS_API_URL, TRANSACTIONS_API_URL } = getServiceConfig();
 
-export const accountBalancesMiddleware = async (
+export const getAccountBalancesMiddleware = async (
   _request: Request,
   response: Response,
   next: NextFunction
@@ -47,9 +47,14 @@ export const accountBalancesMiddleware = async (
       })
     );
 
-    response.status(200).send({ accountBalances });
+    const sortedAccountBalances = accountBalances.sort(
+      (a, b) => b.totalBalance - a.totalBalance
+    );
+
+    response.status(200).send({
+      accountBalances: sortedAccountBalances
+    });
   } catch (err) {
-    console.log('Err', (err as Error).message);
     next(err);
   }
 };
