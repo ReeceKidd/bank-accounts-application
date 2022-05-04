@@ -11,12 +11,14 @@ export const accountBalancesMiddleware = async (
   next: NextFunction
 ) => {
   try {
+
     const accountsResponse = await axios.get(ACCOUNTS_API_URL);
     const accounts: Account[] = accountsResponse.data;
 
+    const numberOfTransactionCallReattempts = 5;
     const accountBalances: AccountBalance[] = await Promise.all(
       accounts.map(async ({ id, name }) => {
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < numberOfTransactionCallReattempts; i++) {
           try {
             const transactionsResponse = await axios.get(
               `${TRANSACTIONS_API_URL}/${id}`
@@ -38,7 +40,9 @@ export const accountBalancesMiddleware = async (
             console.log((err as Error).message, i);
           }
         }
-        throw new Error('Failed after five attempts');
+        throw new Error(
+          `Failed after ${numberOfTransactionCallReattempts} attempts`
+        );
       })
     );
 

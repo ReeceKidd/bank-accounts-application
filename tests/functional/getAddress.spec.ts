@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 import request from 'supertest';
 import app from '../../src/app';
 
