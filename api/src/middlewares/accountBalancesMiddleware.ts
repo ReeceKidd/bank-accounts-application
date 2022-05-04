@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Request, Response, NextFunction } from 'express';
-import { Account, AccountBalance, Transaction } from '../../types';
+import { Account, AccountBalance, Transaction } from '../../../types';
 import { getServiceConfig } from '../getServiceConfig';
 
 const { ACCOUNTS_API_URL, TRANSACTIONS_API_URL } = getServiceConfig();
@@ -11,7 +11,6 @@ export const accountBalancesMiddleware = async (
   next: NextFunction
 ) => {
   try {
-
     const accountsResponse = await axios.get(ACCOUNTS_API_URL);
     const accounts: Account[] = accountsResponse.data;
 

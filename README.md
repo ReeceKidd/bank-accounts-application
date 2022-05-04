@@ -13,7 +13,7 @@
 2. Create an app to view accounts and balances
  
 ## Installation
-Set up the following environment variables in a .env file
+Set up the following environment variables in a .env file inside of the api folder. 
 ````
 NODE_ENV=test
 
