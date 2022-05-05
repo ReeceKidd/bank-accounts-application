@@ -53,7 +53,7 @@ The API has both unit and functional tests.
 
 ## Improvements
 * Authentication middleware should be provided on service layer. 
-* Would split up routes into separate middlewares for validation, manipulation and sorting if requirements were more complex. 
 * Could add additional query params like limit, sort and sortBy to getAccountBalances. 
+* Add name search
 
 
