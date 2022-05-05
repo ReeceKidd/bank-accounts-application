@@ -1,9 +1,16 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('App', () => {
+  describe('mounting', () => {
+    it('should mount without error', () => {
+      expect(() => render(<App />)).not.toThrow();
+    });
+
+    it('should unmount without error', () => {
+      const { unmount } = render(<App />);
+
+      expect(() => unmount()).not.toThrow();
+    });
+  });
 });
