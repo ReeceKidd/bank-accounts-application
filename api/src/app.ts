@@ -6,7 +6,7 @@ import cors from 'cors';
 import * as bodyParser from 'body-parser';
 import swaggerUi from 'swagger-ui-express';
 import * as swaggerDocument from '../swagger.json';
-import { getAccountBalancesMiddleware } from './middlewares/getAccountBalancesMiddleware';
+import { getAccountBalancesMiddlewares } from './routes/getAccountBalances';
 
 dotenv.config();
 
@@ -20,7 +20,7 @@ export default () => {
       extended: true
     })
   );
-  app.get('/accounts/balances', getAccountBalancesMiddleware);
+  app.get('/accounts/balances', ...getAccountBalancesMiddlewares);
 
   app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

@@ -67,4 +67,35 @@ describe('getServiceConfig', () => {
       );
     }
   });
+
+  test('that correct error is thrown when NUMBER_OF_TRANSACTION_CALL_REATTEMPTS is not provided', () => {
+    expect.assertions(1);
+    const environment = {
+      ...environmentMock,
+      NUMBER_OF_TRANSACTION_CALL_REATTEMPTS: undefined
+    };
+
+    try {
+      getServiceConfig(environment);
+    } catch (err) {
+      expect((err as Error).message).toEqual(
+        'NUMBER_OF_TRANSACTION_CALL_REATTEMPTS is not provided.'
+      );
+    }
+  });
+  test('that correct error is thrown when NUMBER_OF_TRANSACTION_CALL_REATTEMPTS is not a number', () => {
+    expect.assertions(1);
+    const environment = {
+      ...environmentMock,
+      NUMBER_OF_TRANSACTION_CALL_REATTEMPTS: 'five'
+    };
+
+    try {
+      getServiceConfig(environment);
+    } catch (err) {
+      expect((err as Error).message).toEqual(
+        'NUMBER_OF_TRANSACTION_CALL_REATTEMPTS must be a number.'
+      );
+    }
+  });
 });
