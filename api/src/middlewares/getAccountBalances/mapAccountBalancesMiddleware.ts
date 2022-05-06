@@ -40,7 +40,10 @@ export const mapAccountBalancesMiddleware = async (
               name: name,
               totalBalance,
               accountType,
-              transactions
+              transactions: transactions.map((transaction: Transaction) => ({
+                ...transaction,
+                amount: new Decimal(transaction.amount).toFixed(2)
+              }))
             };
           } catch (err) {
             console.log((err as Error).message, i + 1);
