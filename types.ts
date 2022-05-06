@@ -10,7 +10,7 @@ export interface Transaction {
 }
 
 export enum AccountType {
-  Saving = 'Saving',
+  Savings = 'Savings',
   Checking = 'Checking',
   Unknown = 'Unknown'
 }
@@ -20,4 +20,5 @@ export interface AccountBalance {
   name: string;
   totalBalance: number;
   accountType: AccountType;
+  transactions: Transaction[];
 }
