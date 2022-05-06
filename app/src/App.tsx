@@ -6,9 +6,10 @@ import Dashboard from './components/Dashboard';
 import NetworkErrorOverlay from './components/NetworkErrorOverlay';
 import NetworkRequestLoading from './components/NetworkRequestLoading';
 
+const ACCOUNT_BALANCES_URL = 'http://localhost:3000/accounts/balances';
+const ACCOUNT_BALANCES_NETWORK_TIMEOUT = 100000;
+
 const App = () => {
-  const ACCOUNT_BALANCES_URL = 'http://localhost:3000/accounts/balances';
-  const ACCOUNT_BALANCES_NETWORK_TIMEOUT = 100000;
   const [accountBalances, setAccountBalances] = useState<AccountBalance[]>();
   const [selectedAccount, setSelectedAccount] = useState<AccountBalance>();
   const [fetchAccountsLoading, setFetchAccountsLoading] = useState(false);
