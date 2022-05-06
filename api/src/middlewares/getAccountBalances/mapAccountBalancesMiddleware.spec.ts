@@ -1,11 +1,7 @@
 import axios from 'axios';
 import { getServiceConfig } from '../../getServiceConfig';
 import { mapAccountBalancesMiddleware } from './mapAccountBalancesMiddleware';
-const {
-  ACCOUNTS_API_URL,
-  TRANSACTIONS_API_URL,
-  NUMBER_OF_TRANSACTION_CALL_REATTEMPTS
-} = getServiceConfig();
+const { NUMBER_OF_TRANSACTION_CALL_REATTEMPTS } = getServiceConfig();
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;

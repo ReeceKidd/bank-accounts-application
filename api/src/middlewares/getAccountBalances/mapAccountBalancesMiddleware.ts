@@ -39,7 +39,8 @@ export const mapAccountBalancesMiddleware = async (
               id: account.id,
               name: name,
               totalBalance,
-              accountType
+              accountType,
+              transactions
             };
           } catch (err) {
             console.log((err as Error).message, i + 1);
