@@ -22,6 +22,8 @@ PORT=3000
 ACCOUNTS_API_URL=https://bankapi.gelt.finance/accounts
 
 TRANSACTIONS_API_URL=https://bankapi.gelt.finance/transactions
+
+NUMBER_OF_TRANSACTION_CALL_REATTEMPTS=5
 ````
 Once your environment variables are set up run
 ```
