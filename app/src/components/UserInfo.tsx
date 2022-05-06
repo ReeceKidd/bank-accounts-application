@@ -1,14 +1,13 @@
 import {
   Avatar,
-  Button,
   Card,
-  CardActions,
   CardContent,
   CardHeader,
   Typography
 } from '@mui/material';
 
 import { AccountBalance } from '../../../types';
+import Transactions from './Transactions';
 
 interface Props {
   selectedAccount?: AccountBalance;
@@ -16,7 +15,7 @@ interface Props {
 
 const UserInfo = ({ selectedAccount }: Props) => {
   return (
-    <Card style={{ position: 'fixed', minWidth: '50%', minHeight: '30%' }}>
+    <Card style={{ position: 'fixed', minWidth: '50%', minHeight: '20%' }}>
       <CardHeader
         avatar={
           <Avatar
@@ -37,10 +36,11 @@ const UserInfo = ({ selectedAccount }: Props) => {
         <Typography gutterBottom variant="h6">
           {selectedAccount?.totalBalance}
         </Typography>
+        {selectedAccount?.transactions &&
+          selectedAccount.transactions.length > 0 && (
+            <Transactions transactions={selectedAccount?.transactions} />
+          )}
       </CardContent>
-      <CardActions>
-        <Button size="small">Contact</Button>
-      </CardActions>
     </Card>
   );
 };

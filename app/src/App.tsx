@@ -34,17 +34,15 @@ const App = () => {
   }, []);
 
   return (
-    <div style={{ backgroundColor: '#f6f9fc' }}>
-      <NetworkRequestLoading loading={fetchAccountsLoading}>
-        <NetworkErrorOverlay errorMessage={fetchAccountBalancesErrorMessage}>
-          <Dashboard
-            accountBalances={accountBalances}
-            selectedAccount={selectedAccount}
-            setSelectedAccount={setSelectedAccount}
-          />
-        </NetworkErrorOverlay>
-      </NetworkRequestLoading>
-    </div>
+    <NetworkRequestLoading loading={fetchAccountsLoading}>
+      <NetworkErrorOverlay errorMessage={fetchAccountBalancesErrorMessage}>
+        <Dashboard
+          accountBalances={accountBalances}
+          selectedAccount={selectedAccount}
+          setSelectedAccount={setSelectedAccount}
+        />
+      </NetworkErrorOverlay>
+    </NetworkRequestLoading>
   );
 };
 

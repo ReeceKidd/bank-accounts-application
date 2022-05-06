@@ -8,7 +8,8 @@ describe('UserList', () => {
     accountType: AccountType.Checking,
     id: 1,
     name: 'Tom Smith',
-    totalBalance: 0
+    totalBalance: 0,
+    transactions: []
   };
   const mockAccountBalances = [mockSelectedAccount];
   const mockSetSelectedAccount = jest.fn();

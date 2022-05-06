@@ -8,7 +8,8 @@ describe('Dashboard', () => {
       accountType: AccountType.Checking,
       id: 1,
       name: 'Tom Smith',
-      totalBalance: 0
+      totalBalance: 0,
+      transactions: []
     };
     const mockAccountBalances: AccountBalance[] = [mockSelectedAccount];
     it('should mount without error with only setSelectedAccount', () => {

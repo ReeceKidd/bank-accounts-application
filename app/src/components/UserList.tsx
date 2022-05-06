@@ -53,7 +53,11 @@ const UserList = ({
                 >
                   {accountBalance.totalBalance}
                 </Typography>
-                <Typography variant="caption" style={{ marginLeft: 10 }}>
+                <Typography
+                  component="span"
+                  variant="caption"
+                  style={{ marginLeft: 10 }}
+                >
                   {accountBalance.accountType}
                 </Typography>
               </div>
